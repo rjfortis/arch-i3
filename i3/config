@@ -7,7 +7,6 @@ font pango:JetBrains Mono 11
 exec --always dex --autostart --environment i3
 exec --always xss-lock -- i3lock -n
 exec --always nm-applet
-exec --always picom -b
 exec --always udiskie -t
 # Set a nice deep slate/dark blue background color
 exec --always xsetroot -solid "#1a1b26"
@@ -24,9 +23,6 @@ bindsym $mod+Shift+t exec --no-startup-id ~/.config/i3/layout-terminals.sh
 bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 5
 bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 5
 bindsym XF86AudioMute exec --no-startup-id pamixer -t
-# Brightness Control
-bindsym XF86MonBrightnessUp exec brightnessctl set +10%
-bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
 
 # Navigation (Vim style)
 bindsym $mod+h focus left
@@ -95,8 +91,26 @@ mode "$mode_system" {
 }
 bindsym $mod+0 mode "$mode_system"
 
+
+# Take a screenshot of the entire screen and save it with a timestamp
+bindsym Print exec --no-startup-id scrot ~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png
+
+# Select an area with the mouse and save the screenshot with a timestamp
+bindsym Shift+Print exec --no-startup-id scrot -s ~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png
+
+# Capture the currently focused window and save it with a timestamp
+bindsym Ctrl+Print exec --no-startup-id scrot -u ~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png
+
+# Select an area, take a screenshot, and copy it directly to the clipboard
+# bindsym $mod+Shift+p exec --no-startup-id sh -c 'scrot -s /tmp/screen.png && xclip -selection clipboard -t image/png /tmp/screen.png'
+bindsym $mod+Shift+p exec --no-startup-id sh -c 'scrot -s /tmp/screen.png && xclip -selection clipboard -t image/png /tmp/screen.png && rm -f /tmp/screen.png'
+
+# notify on success?
+# bindsym $mod+Shift+p exec --no-startup-id sh -c 'scrot -s /tmp/screen.png && xclip -selection clipboard -t image/png /tmp/screen.png && rm -f /tmp/screen.png && notify-send "Screenshot" "Copied to clipboard"'
+
 # Bar
 bar {
     status_command i3status
     position top
 }
+

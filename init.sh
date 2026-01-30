@@ -19,7 +19,7 @@ sudo pacman -S --needed --noconfirm \
 sudo pacman -S --needed --noconfirm \
     code docker docker-compose neovim git \
     ripgrep jq direnv htop curl wget rsync \
-    zip unzip p7zip unrar bash-completion \
+    zip unzip p7zip bash-completion \
     xdg-user-dirs xdg-utils dbus xdg-desktop-portal-gtk \
     networkmanager network-manager-applet \
     xdotool dex polkit-gnome xrandr
