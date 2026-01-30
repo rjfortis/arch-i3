@@ -42,30 +42,42 @@ else
     PART_ROOT="/dev/${DRIVE_NAME}2"
 fi
 
-# --- 2. Partitioning & Mounting ---
-echo "Partitioning /dev/$DRIVE_NAME..."
-wipefs -a "/dev/$DRIVE_NAME"
+# --- 2. Partitioning & Mounting (With Strict Validations) ---
+echo "Cleaning /dev/$DRIVE_NAME..."
+wipefs -a "/dev/$DRIVE_NAME" || { echo "Failed to wipe disk"; exit 1; }
 
-# Partitioning with sfdisk (512MB EFI, Rest Root)
+echo "Partitioning /dev/$DRIVE_NAME..."
 sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sfdisk "/dev/$DRIVE_NAME"
   label: gpt
   size=512M, type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B
   type=4F68BCE3-E8CD-4DB1-96E7-FBCAF984B709
 EOF
 
+if [ $? -ne 0 ]; then
+    echo "ERROR: Partitioning failed."
+    exit 1
+fi
+
 partprobe "/dev/$DRIVE_NAME"
-sleep 3
+sleep 2
 
 echo "Formatting partitions..."
-mkfs.fat -F 32 "$PART_BOOT"
-mkfs.ext4 "$PART_ROOT"
+mkfs.fat -F 32 "$PART_BOOT" || { echo "Failed to format EFI"; exit 1; }
+mkfs.ext4 -F "$PART_ROOT" || { echo "Failed to format Root"; exit 1; }
 
-mount "$PART_ROOT" /mnt
-mount --mkdir "$PART_BOOT" /mnt/boot
+echo "Mounting partitions..."
+mount "$PART_ROOT" /mnt || { echo "ERROR: Could not mount Root to /mnt. Stopping to save RAM."; exit 1; }
+mount --mkdir "$PART_BOOT" /mnt/boot || { echo "ERROR: Could not mount Boot."; exit 1; }
 
-# --- 3. Pacstrap (Base + VM Essentials) ---
-# Added qemu-guest-agent for VM performance/management
-pacstrap -K /mnt base linux linux-firmware nano networkmanager sudo git qemu-guest-agent
+# Double check mount point
+if ! mountpoint -q /mnt; then
+    echo "ERROR: /mnt is not a mountpoint. Installation aborted."
+    exit 1
+fi
+
+# --- 3. Pacstrap ---
+echo "Starting Pacstrap (This might take a while)..."
+pacstrap -K /mnt base linux linux-firmware nano networkmanager sudo git qemu-guest-agent || { echo "Pacstrap failed"; exit 1; }
 
 # --- 4. Fstab ---
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -87,7 +99,7 @@ cat <<EOT > /etc/hosts
 127.0.1.1   $MY_HOSTNAME.localdomain   $MY_HOSTNAME
 EOT
 
-# Passwords (Non-interactive)
+# Passwords
 echo "root:$MY_PASSWORD" | chpasswd
 useradd -m -G wheel "$MY_USER"
 echo "$MY_USER:$MY_PASSWORD" | chpasswd
