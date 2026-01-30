@@ -22,7 +22,8 @@ Boot your VM using the official Arch Linux ISO. Once you have a prompt, run:
 
 ```bash
 
-bash <(curl -sL https://raw.githubusercontent.com/rjfortis/arch-i3/refs/heads/main/arch.sh)
+curl -LO https://raw.githubusercontent.com/rjfortis/arch-i3/refs/heads/main/arch.sh
+bash arch.sh
 
 ```
 
@@ -42,8 +43,8 @@ After the reboot, login with your new user and execute the orchestrator:
 
 ```bash
 
-bash <(curl -sL https://raw.githubusercontent.com/rjfortis/arch-i3/refs/heads/main/start.sh)
-
+curl -LO https://raw.githubusercontent.com/rjfortis/arch-i3/refs/heads/main/start.sh
+bash start.sh
 
 ```
 
