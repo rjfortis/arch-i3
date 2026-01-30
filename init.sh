@@ -21,7 +21,7 @@ sudo pacman -S --needed --noconfirm \
     ripgrep jq direnv htop curl wget rsync \
     zip unzip p7zip unrar bash-completion \
     xdg-user-dirs xdg-utils dbus xdg-desktop-portal-gtk \
-    brightnessctl networkmanager network-manager-applet \
+    networkmanager network-manager-applet \
     xdotool dex polkit-gnome xrandr
 
 sudo pacman -S --needed --noconfirm \
