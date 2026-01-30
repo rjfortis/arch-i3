@@ -51,7 +51,7 @@ curl -sL https://raw.githubusercontent.com/rjfortis/arch-i3/refs/heads/main/star
 
 | Script | Description |
 | --- | --- |
-| `install-base.sh` | Disk formatting, UEFI/GPT setup, and Base Arch install. |
+| `arch.sh` | Disk formatting, UEFI/GPT setup, and Base Arch install. |
 | `start.sh` | Orchestrator that triggers all sub-scripts and downloads dotfiles. |
 | `init.sh` | Installs Xorg, i3wm, Alacritty, Firefox, Docker, and Fonts. |
 | `config.sh` | System tweaks: Keyboard (US), Timezone (SV), and Xinitrc. |
