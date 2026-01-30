@@ -1,6 +1,8 @@
 #!/bin/bash
 
-BASE_URL="https://raw.githubusercontent.com/rjfortis/arch-mini/main"
+# BASE_URL="https://raw.githubusercontent.com/rjfortis/arch-mini/main"
+BASE_URL="https://raw.githubusercontent.com/rjfortis/arch-i3/refs/heads/main"
+
 
 echo "Starting Arch Linux Setup..."
 
