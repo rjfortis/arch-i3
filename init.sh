@@ -4,15 +4,15 @@ sudo pacman -Syu --noconfirm
 
 sudo pacman -S --needed --noconfirm \
     xorg-server xorg-xinit \
-    i3-wm i3status i3lock xss-lock picom
+    i3-wm i3status i3lock xss-lock
 
 sudo pacman -S --needed --noconfirm \
     pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol \
-    pamixer mesa xf86-video-vmware spice-vdagent
+    pamixer mesa spice-vdagent
 
 sudo pacman -S --needed --noconfirm \
     alacritty xterm rofi feh lxappearance arandr \
-    pcmanfm gvfs gvfs-mtp udiskie \
+    pcmanfm gvfs udiskie \
     dunst libnotify firefox chromium \
     scrot imv xclip
 
