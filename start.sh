@@ -25,7 +25,14 @@ curl -sL "${BASE_URL}/alacritty/alacritty.toml" -o ~/.config/alacritty/alacritty
 
 # 5. Run Git & SSH Setup (Interactive)
 echo "Running git-ssh.sh..."
-curl -sL "${BASE_URL}/git-ssh.sh" | bash
+curl -sL "${BASE_URL}/git-ssh.sh" -o git-ssh.sh
+bash git-ssh.sh
+sleep 3
+rm git-ssh.sh
+
+# 6. Bashrc Setup
+echo "Running bashrc.sh..."
+curl -sL "${BASE_URL}/bashrc.sh" | bash
 
 echo "--------------------------------------------------"
 echo "All scripts executed successfully."
