@@ -1,0 +1,102 @@
+set $mod Mod4
+
+# Font (Updated for Arch pango naming)
+font pango:JetBrains Mono 11
+
+# Autostart
+exec --always dex --autostart --environment i3
+exec --always xss-lock -- i3lock -n
+exec --always nm-applet
+exec --always picom -b
+exec --always udiskie -t
+# Set a nice deep slate/dark blue background color
+exec --always xsetroot -solid "#1a1b26"
+
+# Core Shortcuts
+bindsym $mod+Return exec alacritty
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec rofi -show drun
+bindsym $mod+Shift+e exec i3-msg exit
+bindsym $mod+n exec alacritty -e nvim
+bindsym $mod+Shift+t exec --no-startup-id ~/.config/i3/layout-terminals.sh
+
+# Audio Control (Using pamixer)
+bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 5
+bindsym XF86AudioLowerVolume exec --no-startup-id pamixer -d 5
+bindsym XF86AudioMute exec --no-startup-id pamixer -t
+# Brightness Control
+bindsym XF86MonBrightnessUp exec brightnessctl set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl set 10%-
+
+# Navigation (Vim style)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Layout and Windows
+bindsym $mod+f fullscreen toggle
+bindsym $mod+v split v
+bindsym $mod+b split h
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+
+# Resize mode (alternative to separate bindsyms for cleaner config)
+bindsym $mod+Shift+a resize shrink width 10px
+bindsym $mod+Shift+s resize grow width 10px
+bindsym $mod+Shift+z resize shrink height 10px
+bindsym $mod+Shift+x resize grow height 10px
+
+bindsym $mod+Shift+r restart
+
+# Style & Gaps
+default_border normal 0
+default_floating_border normal 0
+for_window [class="Alacritty"] border normal 0
+
+gaps inner 8
+gaps outer 0
+
+# Color Scheme (Tokyo Night)
+client.focused          #7aa2f7 #7aa2f7 #1a1b26 #bb9af7   #7aa2f7
+client.unfocused        #24283b #24283b #414868 #24283b   #24283b
+client.focused_inactive #24283b #24283b #414868 #24283b   #24283b
+client.urgent           #f7768e #f7768e #ffffff #f7768e   #f7768e
+
+# Exit Menu
+set $mode_system System (l) logout, (r) reboot, (s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id i3-msg exit, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym s exec --no-startup-id systemctl poweroff, mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+0 mode "$mode_system"
+
+# Bar
+bar {
+    status_command i3status
+    position top
+}
