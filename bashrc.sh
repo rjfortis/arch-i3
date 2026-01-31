@@ -16,15 +16,17 @@ fi
 EOF
 fi
 
-# Mise activation
+
 if ! grep -q "mise activate bash" "$BASHRC" 2>/dev/null; then
 cat >> "$BASHRC" <<'EOF'
-
-# Mise activation (if available)
-if command -v mise >/dev/null 2>&1; then
-  eval "$(mise activate bash)"
+if [ -f "$HOME/.local/bin/mise" ]; then
+  eval "$("$HOME/.local/bin/mise" activate bash)"
 fi
 EOF
 fi
+
+
+
+
 
 echo "Done. Open a new shell or run: source ~/.bashrc"

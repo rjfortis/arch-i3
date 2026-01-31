@@ -74,7 +74,7 @@ if ! mountpoint -q /mnt; then
 fi
 
 # --- 3. Pacstrap ---
-pacstrap -K /mnt base linux linux-firmware nano networkmanager sudo git qemu-guest-agent || exit 1
+pacstrap -K /mnt base linux linux-firmware nano networkmanager sudo git openssh qemu-guest-agent || exit 1
 
 # --- 4. Fstab ---
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -104,6 +104,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager
+systemctl enable sshd
 systemctl enable qemu-guest-agent
 EOF
 
